@@ -13,4 +13,10 @@ public class HollaMundoController {
     public String saludar(){
         return "Hola Juanjo, Confia en ti, tú eres capaz";
     }
+
+
+    @GetMapping("/Maia")
+    public String saludar1(){
+        return "Hola mi Maia, Te amo con todo mi corazoncito ❤️🥰 ";
+    }
 }
