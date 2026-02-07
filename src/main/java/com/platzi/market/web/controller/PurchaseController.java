@@ -8,7 +8,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/Purchase")
@@ -28,7 +27,7 @@ public class PurchaseController {
                 .map(purchases -> new ResponseEntity<>(purchases, HttpStatus.OK))
                 .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
-    @PostMapping()
+    @PostMapping("/save")
     public ResponseEntity<Purchase>  save(@RequestBody Purchase purchase){
         return new ResponseEntity<>(purchaseService.save(purchase),HttpStatus.CREATED);
     }
