@@ -2,6 +2,10 @@ package com.platzi.market.web.controller;
 
 import com.platzi.market.domain.Product;
 import com.platzi.market.domain.service.ProductService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -12,6 +16,8 @@ import java.util.function.Predicate;
 
 @RestController
 @RequestMapping("/Product")
+@Tag(name = "Products", description = "Gestión de Productos")
+
 public class ProductController {
 
     private ProductService productService;
@@ -21,11 +27,17 @@ public class ProductController {
     }
 
     @GetMapping("/getAll")
+    @Operation(summary = "Consulta todos los productos")
     public ResponseEntity<List<Product>> consultarProductos(){
         return new ResponseEntity<>(productService.getAll(), HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
+    @Operation(summary = "Consultar producto por id")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Producto encontrado"),
+            @ApiResponse(responseCode = "404", description = "Producto no encontrado")
+    })
     public ResponseEntity<Product> consultarProductoPorId(@PathVariable("id") int productId){
         return productService.getProduct(productId)
                 .map(product -> new ResponseEntity<>(product,HttpStatus.OK))
@@ -40,6 +52,7 @@ public class ProductController {
     }
 
     @PostMapping("/save")
+    @Operation(summary = "Crear una Producto")
     public ResponseEntity<Product> guardarProducto(@RequestBody Product product){
         return new ResponseEntity<>(productService.save(product), HttpStatus.CREATED);
     }
